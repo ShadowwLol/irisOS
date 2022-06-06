@@ -24,8 +24,10 @@ enable_A20:
   out 0x92, al
   ret
 
-
 [bits 32]
+
+%include "CPUID.asm"
+%include "paging.asm"
 
 start_protected_mode:
   mov ax, dataseg
@@ -35,15 +37,28 @@ start_protected_mode:
   mov fs, ax
   mov gs, ax
 
-  ; start of video memory!
-  mov [0xb8000], byte "H"
-  mov [0xb8002], byte "e"
-  mov [0xb8004], byte "l"
-  mov [0xb8006], byte "l"
-  mov [0xb8008], byte "o"
-  mov [0xb800a], byte "!"
+  call detect_CPUID
+  call detect_long_mode
+  call identity_paging
+  call edit_gdt
 
+  jmp codeseg:start_64bit
+
+[bits 64]
+
+start_64bit:
+  mov edi, 0xb8000
+  mov rax, 0x1f201f201f201f20; white ('f') foreground and blue ('1') foreground and ('20' => ' ')
+  mov ecx, 500
+  rep stosq
+  call print_header
   jmp $
+
+print_header:
+  mov dword [0xb8000], 0x4f524f45
+  mov dword [0xb8004], 0x4f3a4f52
+  mov dword [0xb8008], 0x4f204f20
+  ret
 
 ; fill up all sectors
 times 2048 - ($ - $$) db 0

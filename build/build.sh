@@ -13,7 +13,7 @@ compile(){
   cd ..
   
   cd csrc
-  x86_64-elf-gcc -Ttext 0x8000 -ffreestanding -mno-red-zone -m64 -c "kernel.c" -o "$BDIR/kernel.o"
+  x86_64-elf-gcc -O2 -Ttext 0x8000 -ffreestanding -mno-red-zone -m64 -c "kernel.c" -o "$BDIR/kernel.o"
   cd $BDIR
   
   x86_64-elf-ld -T"link.ld"

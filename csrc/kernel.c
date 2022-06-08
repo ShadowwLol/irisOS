@@ -1,25 +1,12 @@
 #include "iris.c"
 #include "cursor.c"
-
-void print_str(const char * str, size_t len, color bg, color fg);
+#include "misc.c"
 
 void _start(void){
-  uint16_t cursor_pos = set_cursor_pos(cursor_coords(VGA_WIDTH/2, VGA_HEIGHT/2));
-  //print_str("test", 120, PINK, YELLOW);
+  clear_screen(BACKGROUND_RED|FOREGROUND_WHITE);
+  uint16_t cursor_pos = set_cursor_pos(cursor_coords((VGA_WIDTH/2) - 9, VGA_HEIGHT/2));
+  print_str("Welcome to irisOS!\n\r",     &cursor_pos, BACKGROUND_BLINKING_WHITE | FOREGROUND_BLACK);
+  cursor_pos = set_cursor_pos(cursor_coords((VGA_WIDTH/2) - 13, (VGA_HEIGHT/2) + 1));
+  print_str("Press <ENTER> to continue.", &cursor_pos, BACKGROUND_BLINKING_WHITE | FOREGROUND_BLACK);
   return;
-}
-
-/*
-;  print_header:
-;  mov dword [0xb8000], 0x4f524f45
-;  mov dword [0xb8004], 0x4f3a4f52
-;  mov dword [0xb8008], 0x4f204f20
-;  ret
-*/
-void print_str(const char * str, size_t len, color bg, color fg){
-  int * loc = (int *)VGA_MEMORY;
-  for (size_t i = 0; i < len; ++i){
-    *loc = 0x4f524f45;
-    loc += 1;
-  }
 }

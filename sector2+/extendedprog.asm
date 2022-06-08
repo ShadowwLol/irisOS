@@ -1,5 +1,3 @@
-[org 0x7e00]
-
 jmp enter_protected_mode
 
 ; includes
@@ -45,20 +43,22 @@ start_protected_mode:
   jmp codeseg:start_64bit
 
 [bits 64]
+[extern _start]
 
 start_64bit:
   mov edi, 0xb8000
   mov rax, 0x1f201f201f201f20; white ('f') foreground and blue ('1') foreground and ('20' => ' ')
   mov ecx, 500
   rep stosq
-  call print_header
+  ;call print_header
+  call _start
   jmp $
 
-print_header:
-  mov dword [0xb8000], 0x4f524f45
-  mov dword [0xb8004], 0x4f3a4f52
-  mov dword [0xb8008], 0x4f204f20
-  ret
+;print_header:
+;  mov dword [0xb8000], 0x4f524f45
+;  mov dword [0xb8004], 0x4f3a4f52
+;  mov dword [0xb8008], 0x4f204f20
+;  ret
 
 ; fill up all sectors
 times 2048 - ($ - $$) db 0

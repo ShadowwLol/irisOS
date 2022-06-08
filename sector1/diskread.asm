@@ -1,12 +1,12 @@
 ; rest of disk macro
-PROGRAM_SPACE equ 0x7e00
+PROGRAM_SPACE equ 0x8000
 
 ; function 'read_disk'
 read_disk:
   mov ah, 0x02 ; BIOS function to read disk
 
   mov bx, PROGRAM_SPACE
-  mov al, 4 ; sector amount
+  mov al, 32 ; sector amount
   mov dl, [BOOT_DISK]
   ; hard drive specific
   mov ch, 0x00 ; cilinder 0

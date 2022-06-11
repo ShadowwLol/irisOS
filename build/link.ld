@@ -5,6 +5,7 @@ ENTRY(_start)
 INPUT(
   extendedprog.o
   kernel.o
+  binaries.o
 )
 
 OUTPUT(kernel.bin)

@@ -26,9 +26,10 @@ uint16_t print_str(char * str, uint16_t * index, uint8_t color){
         break;
       case '\n':
         *index += VGA_WIDTH;
-        break;
-      case '\r':
         *index -= *index % VGA_WIDTH;
+        break;
+      case '\t':
+        *index += 3; /* tab size of 3 spaces */
         break;
     }
     ++s;

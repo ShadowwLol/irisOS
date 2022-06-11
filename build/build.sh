@@ -10,6 +10,7 @@ compile(){
   
   cd sector2+
   nasm "extendedprog.asm" -f elf64 -o "$BDIR/extendedprog.o"
+  nasm "binaries.asm" -f elf64 -o "$BDIR/binaries.o"
   cd ..
   
   cd csrc
